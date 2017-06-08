@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Dao.InformationDao">
+	<select id="getInformationByRole" resultMap="informationMap">
+		SELECT news.Title,news.Content,news.Important,news.Releasetime,user.Name User_Name,user.Office 
+		FROM news LEFT JOIN user ON news.Release_User_ID=user.ID 
+		WHERE LOCATE(#{0},news.Permission)>0 ORDER BY news.important DESC
+	</select>
+	<resultMap id="informationMap" type="com.model.Information">
+		<id property="id" column="information_ID" />
+		<result property="releaseUserID" column="Release_User_ID" />
+		<result property="title" column="Title" />
+		<result property="content" column="Content" />
+		<result property="important" column="Important" />
+		<result property="permission" column="Permission" />
+		<result property="releaseTime" column="Releasetime" />
+		<association property="releaseUser" javaType="com.model.User">
+			<id property="id" column="userID" />
+			<result property="name" column="User_Name" />
+			<result property="office" column="Office" />
+		</association>
+	</resultMap>
+</mapper>

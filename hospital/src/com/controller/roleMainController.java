@@ -11,10 +11,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.model.Information;
 import com.model.Navigation;
 import com.model.User;
+import com.service.InformationService;
 import com.service.NavigationService;
 import com.service.UserService;
 
@@ -32,6 +35,9 @@ public class roleMainController {
 	//用户服务层对象
 	@Autowired
 	private UserService userService;
+	//消息服务层对象
+	@Autowired
+	private InformationService informationService;
 	
 	/**
 	 * 获取角色对应所有功能导航
@@ -72,5 +78,18 @@ public class roleMainController {
 		User user = (User)session.getAttribute("loginUser");
 		userService.updateOnline(user, (byte)0);
 		session.invalidate();
+	}
+	
+	/**
+	 * 返回当前用户角色可见消息
+	 * @param request
+	 * @return 角色消息json对象
+	 */
+	@RequestMapping(value="/informationAjax", method=RequestMethod.POST)
+	@ResponseBody
+	public List<Information> handlerInformationAjax(HttpServletRequest request){
+		String role = ((User)request.getSession().getAttribute("loginUser")).getCurrentRole();
+		List<Information> test = informationService.getInformationByRole(role);
+		return informationService.getInformationByRole(role);
 	}
 }

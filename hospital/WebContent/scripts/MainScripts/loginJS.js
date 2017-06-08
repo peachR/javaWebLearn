@@ -12,6 +12,7 @@ $(function(){
 			}else{
 				$("#userName").val(data.userName);
 				$("#password").val(data.psw);
+				$("input[name='remember']").attr("checked",true);
 			}
 		}
 	});

@@ -10,16 +10,19 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="/hospital/AdminLTE/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/hospital/AdminLTE/bootstrap/css/bootstrap.min.css" />
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="/hospital/AdminLTE/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/hospital/AdminLTE/font-awesome-4.7.0/css/font-awesome.min.css" />
   <!-- Ionicons -->
-  <link rel="stylesheet" href="/hospital/AdminLTE/ionicons-master/css/ionicons.min.css">
+  <link rel="stylesheet" href="/hospital/AdminLTE/ionicons-master/css/ionicons.min.css" />
   <!-- Theme style -->
-  <link rel="stylesheet" href="/hospital/AdminLTE/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/hospital/AdminLTE/dist/css/AdminLTE.min.css" />
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="/hospital/AdminLTE/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/hospital/AdminLTE/dist/css/skins/_all-skins.min.css" />
+  <!-- Main css -->
+  <link rel="stylesheet" href="/hospital/Css/MainCss/MainCss.css" />
+  <link rel="stylesheet" href="/hospital/Css/MainCss/informationTable.css" />
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -314,6 +317,61 @@
     </section>
     <!-- /.sidebar -->
   </aside>
+  <div class="content-wrapper" style="min-height:1024px">
+  	<!-- Content header -->
+  	<section class="content-header">
+  		<h1>
+  			Welcome to use
+  			<small>main page</small>
+  		</h1>
+  		<ol class="breadcrumb">
+  			<li>
+  				<a href="#">
+  				<i class="fa fa-dashboard"></i>
+  				Home
+  				</a>
+  			</li>
+  		</ol>
+  	</section>
+  	<!-- end of content header -->
+  	<!-- Main content -->
+  	<section class="content">
+  		<div class="row">
+  			<div class="col-md-3">&nbsp;</div>
+			<div class="col-md-6">
+				<div class="box">
+				<input id="currentPage" type="hidden" value="1">
+				<input id="sumPage" type="hidden" />
+					<div class="box-header">
+						<h3 class="box-title">消息列表</h3>
+						<div class="box-tools">
+							<a id="showmore" href="#">more</a>
+						</div>
+					</div>
+					<!-- box header -->
+					<div class="box-body no-padding">
+						<table id="information" class="table table-striped">
+							<tbody>
+								<tr>
+									<th>标题</th>
+									<th class="rightWidth">发布时间</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- box body -->
+					<div id="boxFoot" class="box-footer clearfix tohidden">
+						<input id="lastPage" type="button" value="末页" class="btn btn-primary btn-xs disabled pull-right" />					
+						<input id="nextPage" type="button" value="下一页" class="btn btn-primary btn-xs disabled pull-right" />
+						<input id="previousPage" type="button" value="上一页" class="btn btn-primary btn-xs disabled pull-right" />
+						<input id="firstPage" type="button" value="首页" class="btn btn-primary btn-xs disabled pull-right" />
+					</div>
+				</div>
+				<!-- box -->
+			</div>
+  		</div>
+  	</section>
+  </div>
   <!-- jquery -->
   <script src="/hospital/jquery/jquery.min.js"></script>
   <!-- roleMain -->

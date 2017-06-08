@@ -12,6 +12,7 @@ public class User {
 	private String password;
 	private String Name;
 	private String Gender;
+	private String office;
 	private int Activate;
 	private List<Role> roles;
 	private String currentRole;
@@ -37,6 +38,10 @@ public class User {
 	
 	public void setGender(String Gender){
 		this.Gender = Gender;
+	}
+	
+	public void setOffice(String office){
+		this.office = office;
 	}
 	
 	public void setActivate(int Activate){
@@ -97,5 +102,9 @@ public class User {
 	
 	public byte getOn(){
 		return this.on;
+	}
+	
+	public String getOffice(){
+		return this.office;
 	}
 }

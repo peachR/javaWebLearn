@@ -5,6 +5,7 @@
  */
 
 var usedParent = new Array();//存储已生成的导航栏父节点
+var informations = [];//消息json对象
 
 $(function(){
   //根据角色生成对应导航栏
@@ -28,6 +29,9 @@ $(function(){
   });
 });
 
+/**
+ * 绑定注销按钮点击事件
+ */
 $(function(){
 	$("#signOut").bind("click", function(){
 		$.ajax({
@@ -38,6 +42,25 @@ $(function(){
 		return false;
 	});
 });
+
+/**
+ * 创建消息通知栏
+ */
+$(function(){
+	CreateInformationList();
+	$("#showmore").bind("click", function(){
+		if($(this).text() == "more"){
+			$("#information :hidden").fadeIn(360);
+			$("#boxFoot").slideDown(300);
+			$(this).text("hide");
+		}else{
+			$("tr.needHide").fadeOut(300);
+			$("#boxFoot").slideUp(300);
+			$(this).text("more");
+		}
+	});
+});
+
 /* **
  *获取urlGet请求参数
  *@param name 请求参数名
@@ -177,4 +200,155 @@ function GetParent(fid, father){
 			return father[i];
 	}
 	return null;
+}
+
+/**
+* 	创建消息栏
+* **/
+function CreateInformationList(){
+	//取得可见消息标题
+	$.ajax({
+		type: "POST",
+		url: "/hospital/user/informationAjax",
+		dataType: "json",
+		success: function(data){
+			if(data != undefined){
+				informations = data;
+				var page = data.length / 10;
+				var sum = (page - parseInt(page)) == 0 ? parseInt(page) : parseInt(page) + 1;
+				$("#sumPage").val(sum);
+				createInformation(data, 1, true);
+				if(data.length > 10){
+					nextPage();
+					lastPage();					
+				}
+			}
+		}
+	});
+}
+
+/**
+ * 
+ * @param data 消息json对象
+ * @param page 生成第几页
+ * @param isHide 是否影藏后5行
+ * @returns
+ */
+function createInformation(data, page, isHide){
+	var $tbody = $("#information > tbody");
+	var begin = (page - 1) * 10;
+	var end = (page * 10 - 1) < (data.length - 1) ? (page * 10) : data.length;
+	var count = isHide ? 0 : -11;
+	var needHide = 0;
+	for(var i = begin;i < end;++i){
+		var $titleTd = $("<td><a href=#>" + data[i].title + "</a></td>");
+		var $timeTd = $("<td>" + data[i].releaseTime.split(" ")[0] + "</td>");
+		var $tr = $("<tr></tr>");
+		if(count > 4){
+			$tr.addClass("tohidden");
+		}
+		if(needHide >4){
+			$tr.addClass("needHide");
+		}
+		$tr.append($titleTd).append($timeTd);
+		$tbody.append($tr);
+		++count;
+		++needHide;
+	}
+}
+
+/**
+ * 导航到某页
+ * @param index 页码
+ * @param isHide 生成时是否影藏后5行
+ * @returns
+ */
+function toOnePage(index, isHide){
+	$("#information tr:not(:eq(0))").remove();
+	createInformation(informations, index, isHide);//line 234
+	$("#currentPage").val(index);//修改当前页码
+}
+//4个翻页事件处理
+/**
+ * 激活前往首页按钮
+ * @returns
+ */
+function firstPage(){
+	var currentPage = $("#currentPage").val();
+	$("#firstPage").removeClass("disabled")
+	.bind("click", function(){
+		toOnePage(1, false);//导航到第一页
+		$(this).addClass("disabled").unbind("click");
+		$("#previousPage").addClass("disabled").unbind("click");
+		var sumPage = $("#sumPage").val();
+		if(sumPage == currentPage){
+			lastPage();
+			nextPage();
+		}
+	});	   
+}
+
+/**
+ * 激活上一页
+ * @returns
+ */
+function previousPage(){
+	$("#previousPage").removeClass("disabled")
+	.bind("click", function(){
+		var currentPage = $("#currentPage").val();
+		toOnePage(parseInt(currentPage) - 1,false);
+		if(parseInt(currentPage) == 2){
+			$(this).addClass("disabled")
+			.unbind("click");
+			$("#firstPage").addClass("disabled")
+			.unbind("click");
+		}
+		var sumPage = $("#sumPage").val();
+		if(sumPage == currentPage){
+			lastPage();
+			nextPage();
+		}
+	});
+}
+
+/**
+ * 激活下一页
+ * @returns
+ */
+function nextPage(){
+	var currentPage = $("#currentPage").val();
+	var sumPage = $("#sumPage").val();
+	$("#nextPage").removeClass("disabled")
+	.bind("click", function(){
+		toOnePage(parseInt(currentPage) + 1, false);
+		if((parseInt(currentPage) + 1) == parseInt(sumPage)){
+			$(this).addClass("disabled")
+			.unbind("click");
+			$("#lastPage").addClass("disabled")
+			.unbind("click");
+		}
+		if(currentPage == 1){
+			firstPage();
+			previousPage();
+		}
+	});
+}
+
+/**
+ * 激活末页
+ * @returns
+ */
+function lastPage(){
+	var currentPage = $("#currentPage").val();
+	var sumPage = $("#sumPage").val();
+	$("#lastPage").removeClass("disabled")
+	.bind("click", function(){
+		toOnePage(parseInt(sumPage), false);
+		$(this).addClass("disabled")
+		.unbind("click");
+		$("#nextPage").addClass("disabled")
+		.unbind("click");
+		firstPage();
+		previousPage();
+	});
 }
