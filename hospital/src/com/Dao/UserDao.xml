@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Dao.UserDao" >
+  <select id="getUser" parameterType="com.model.User" resultMap="userMap">
+     SELECT user.Name user_Name,user.ID u_id,user.Gender,user.Activate,role.Name role_Name,role.Description,role.ID rid FROM user LEFT JOIN user2role on user.ID=user2role.User_ID LEFT JOIN role ON user2role.Role_ID=role.ID WHERE user.Number=#{Number}
+    AND user.password=#{password}
+  </select>
+  <resultMap type="com.model.User" id="userMap">
+  	<id property="id" column="u_id" />
+  	<result property="Name" column="user_Name" />
+  	<result property="Gender" column="Gender" />
+  	<result property="Activate" column="Activate" />
+  	<collection property="roles" ofType="com.model.Role">
+  		<id property="id" column="rid" />
+  		<result property="Name" column="role_Name" />
+  		<result property="Description" column="Description" />
+  	</collection>
+  </resultMap>
+  <update id="updateOnline">
+  	UPDATE user SET Online=#{on} WHERE id=#{id}
+  </update>
+</mapper>

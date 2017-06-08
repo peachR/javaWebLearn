@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+.tohidden{
+	display:none;
+}
+.toright{
+	float:right;
+}
+
+input.invalid{
+	border:red 3px solid;
+	background-color:#ffbbaa;
+}

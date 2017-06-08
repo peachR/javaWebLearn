@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Dao.RoleDao">
+	<!-- 获取所有角色 -->
+	<select id="getAllRole" resultMap="roleMap">
+		SELECT * FROM role
+	</select>
+	<!-- 获取指定角色 -->
+	<select id="getRole" resultMap="roleMap">
+		SELECT * FROM role WHERE Name=#{name}
+	</select>
+	<resultMap id="roleMap" type="com.model.Role">
+		<id property="id" column="ID"/>
+		<result property="Name" column="Name" />
+		<result property="Description" column="Description" />
+	</resultMap>
+	
+</mapper>
