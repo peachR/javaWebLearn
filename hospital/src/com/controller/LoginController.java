@@ -5,6 +5,7 @@ package com.controller;
  * @Time 2017-05-25 15:52:55
  */
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -121,7 +122,7 @@ public class LoginController {
 		user.setcurrentRole(role);
 		String description = roleService.getRole(role).getDescription();
 		user.setRoleDescription(description);
-		map.put("age", 23);
+		map.put("age", 23);		
 		return "Main/roleMain";
 	}
 }

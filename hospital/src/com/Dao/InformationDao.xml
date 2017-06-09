@@ -6,7 +6,8 @@
 	<select id="getInformationByRole" resultMap="informationMap">
 		SELECT news.Title,news.Content,news.Important,news.Releasetime,user.Name User_Name,user.Office 
 		FROM news LEFT JOIN user ON news.Release_User_ID=user.ID 
-		WHERE LOCATE(#{0},news.Permission)>0 ORDER BY news.important DESC
+		WHERE LOCATE(#{role},news.Permission)>0 
+		ORDER BY news.important DESC,news.Releasetime DESC
 	</select>
 	<resultMap id="informationMap" type="com.model.Information">
 		<id property="id" column="information_ID" />

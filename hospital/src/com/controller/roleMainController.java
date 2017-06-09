@@ -89,7 +89,6 @@ public class roleMainController {
 	@ResponseBody
 	public List<Information> handlerInformationAjax(HttpServletRequest request){
 		String role = ((User)request.getSession().getAttribute("loginUser")).getCurrentRole();
-		List<Information> test = informationService.getInformationByRole(role);
 		return informationService.getInformationByRole(role);
 	}
 }
